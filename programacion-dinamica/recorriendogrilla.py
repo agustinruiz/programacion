@@ -13,7 +13,9 @@ def grid_traveler_recursive(m, n):
 
 def grid_traveler_recursive_memo(m, n, memo={}):
     ''' Solucion recursiva con memoizacion para optimizar el tiempo '''
-    key = str(m) + ',' + str(n)
+    #La clave es la combinacion de ambos argumentos. Los separamos por coma porque si dejamos solo los 
+    # numeros por ej una clave 2,42 seria igual que 24,2 
+    key = str(m) + ',' + str(n) 
     if key in memo:
         return memo[key]
     if m == 1 and n == 1:
