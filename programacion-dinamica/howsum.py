@@ -11,6 +11,14 @@ If are multiple combination possible, you may return eny single one.
 
 
 def how_sum(target_sum, numbers):
+    ''' 
+        Solucion recursiva
+        m = target sum
+        n = len(numbers)
+
+        La complejidad de tiempo sera: time = O(n^m)
+        space: O(m)
+    '''
     if target_sum == 0:
         return []
     if target_sum < 0:
