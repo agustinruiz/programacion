@@ -26,6 +26,13 @@ def best_sum_recursive(target_sum, numbers):
 
 
 def best_sum_recursive_memoized(target_sum, numbers, memo):
+    ''' Solucion recursiva con memoizacion
+        m = target_sum
+        n = len(numbers)
+        time complexity: O(n*m*m) = O(n * m^2) -> la ultima multiplicacion por m la agrega el crear la lista combination ya que copia
+                                                    todos los elementos de la lista y en el peor de los casos es m.
+        space complexity: O(m*m) = O(m^2)
+    '''
     if target_sum in memo:
         return memo[target_sum]
     if target_sum == 0:
@@ -39,17 +46,25 @@ def best_sum_recursive_memoized(target_sum, numbers, memo):
             remainder, numbers, memo)
         if result_remainder is not None:
             # armo la combinacion que resuelve el target_sum
-            result_remainder.append(num)
+            # Tengo que concatenar dos listas y generar una nueva
+            # combination = [y for x in [result_remainder, [num]] for y in x] # usando comprehencion es + dificil de entender
+            # combination = [*result_remainder, *[num]] # Con el nuevo operador *. a partir de python 3.6
+            # la clasica concatenacion con el operados suma
+            combination = result_remainder + [num]
             # Si la combinacion es mas corta que el "mas corto" hago el update
-            if (shortest_combination is None) or (len(result_remainder) < len(shortest_combination)):
-                shortest_combination = result_remainder[:]
+            if (shortest_combination is None) or (len(combination) < len(shortest_combination)):
+                shortest_combination = combination
 
-    # IMPORTANTE: al principio habia puesto 'memo[target_sum] = shortest_combination' pero eso deja en el diccionario una referencia a shortest_combination
-    # Por lo que si shortest_combination se modifica tambien la entrada del diccionario
-    if shortest_combination is None:
-        memo[target_sum] = None
-    else:
-        memo[target_sum] = shortest_combination[:]
+            '''
+            # Antes lo habia resuelto asi:
+            result_remainder.append(num)
+            if (shortest_combination is None) or (len(result_remainder) < len(shortest_combination)):
+               shortest_combination = result_remainder[:]
+            #Pero esto me daba error en el ultimo test ya que agregaba el numero al result_remainder en lugar de crear una lista nueva para
+            # evaluar la combinacion. Esto generaba que se agreguen numeros a la lista que no correspondian.
+            '''
+
+    memo[target_sum] = shortest_combination
 
     return shortest_combination
 
