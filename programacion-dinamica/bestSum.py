@@ -49,19 +49,23 @@ def best_sum_recursive_memoized(target_sum, numbers, memo):
             # Tengo que concatenar dos listas y generar una nueva
             # combination = [y for x in [result_remainder, [num]] for y in x] # usando comprehencion es + dificil de entender
             # combination = [*result_remainder, *[num]] # Con el nuevo operador *. a partir de python 3.6
-            # la clasica concatenacion con el operados suma
+            # la clasica concatenacion con el operados +
             combination = result_remainder + [num]
             # Si la combinacion es mas corta que el "mas corto" hago el update
             if (shortest_combination is None) or (len(combination) < len(shortest_combination)):
                 shortest_combination = combination
 
             '''
+            ############ IMPORTANTE #############
             # Antes lo habia resuelto asi:
             result_remainder.append(num)
             if (shortest_combination is None) or (len(result_remainder) < len(shortest_combination)):
                shortest_combination = result_remainder[:]
-            #Pero esto me daba error en el ultimo test ya que agregaba el numero al result_remainder en lugar de crear una lista nueva para
-            # evaluar la combinacion. Esto generaba que se agreguen numeros a la lista que no correspondian.
+            # pero cuando se agrego memoizacion esto dejo de funcionar ya que ahora la funcion puede devolver la referencia a
+            # uno de los elementos del diccionario. esto provocaba que result_remainder apunte a ese objero y se appendeaba el numero
+            # al valor del diccionario.
+            # Pero esto me daba error en el ultimo test ya que agregaba el numero al result_remainder en lugar de crear una lista nueva 
+            # a la cual agregarle el numero.
             '''
 
     memo[target_sum] = shortest_combination
