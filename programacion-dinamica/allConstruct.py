@@ -58,18 +58,36 @@ def all_construct(target, word_bank):
     return result
 
 
+def all_construct_memoized(target, word_bank, memo):
+    if target in memo:
+        return memo[target]
+    if target == '':
+        return [[]]
+
+    result = []
+    for word in word_bank:
+        if target.startswith(word):
+            suffix = target[len(word):]
+            suffix_ways = all_construct_memoized(suffix, word_bank, memo)
+            target_ways = map(lambda way: [word] + way, suffix_ways)
+            result.extend(target_ways)
+
+    memo[target] = result
+    return result
+
+
 # 2
 print(
-    f"Count construct 'purple' ['purp','p','ur','le','purpl']: {all_construct('purple',['purp','p','ur','le','purpl'])}")
+    f"Count construct 'purple' ['purp','p','ur','le','purpl']: {all_construct_memoized('purple',['purp','p','ur','le','purpl'],{})}")
 # 1
 print(
-    f"Count construct 'abcdef' ['ab','abc','cd','def','abcd','ef','c']: {all_construct('abcdef',['ab','abc','cd','def','abcd','ef','c'])}")
+    f"Count construct 'abcdef' ['ab','abc','cd','def','abcd','ef','c']: {all_construct_memoized('abcdef',['ab','abc','cd','def','abcd','ef','c'],{})}")
 # 0
 print(
-    f"Count construct 'skateboard' ['bo','rd','ate','t','ska','sk','boar']: {all_construct('skateboard',['bo','rd','ate','t','ska','sk','boar'])}")
+    f"Count construct 'skateboard' ['bo','rd','ate','t','ska','sk','boar']: {all_construct_memoized('skateboard',['bo','rd','ate','t','ska','sk','boar'],{})}")
 # 4
 print(
-    f"Count construct 'enterapotentpot' ['a','p','ent','enter','ot','o','t']: {all_construct('enterapotentpot',['a','p','ent','enter','ot','o','t'])}")
+    f"Count construct 'enterapotentpot' ['a','p','ent','enter','ot','o','t']: {all_construct_memoized('enterapotentpot',['a','p','ent','enter','ot','o','t'],{})}")
 # False
 print(
-    f"Count construct 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef' ['e','ee','eee','eeee','eeeee','eeeeee']: {all_construct('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef',['e','ee','eee','eeee','eeeee','eeeeee'])}")
+    f"Count construct 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef' ['e','ee','eee','eeee','eeeee','eeeeee']: {all_construct_memoized('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef',['e','ee','eee','eeee','eeeee','eeeeee'],{})}")
