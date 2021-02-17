@@ -76,18 +76,35 @@ def all_construct_memoized(target, word_bank, memo):
     return result
 
 
-# 2
+# [['purp', 'le'], ['p', 'ur', 'p', 'le']]
 print(
     f"Count construct 'purple' ['purp','p','ur','le','purpl']: {all_construct_memoized('purple',['purp','p','ur','le','purpl'],{})}")
-# 1
+# [['ab', 'cd', 'ef'], ['ab', 'c', 'def'], ['abc', 'def'], ['abcd', 'ef']]
 print(
     f"Count construct 'abcdef' ['ab','abc','cd','def','abcd','ef','c']: {all_construct_memoized('abcdef',['ab','abc','cd','def','abcd','ef','c'],{})}")
-# 0
+# []
 print(
     f"Count construct 'skateboard' ['bo','rd','ate','t','ska','sk','boar']: {all_construct_memoized('skateboard',['bo','rd','ate','t','ska','sk','boar'],{})}")
-# 4
+# [['enter', 'a', 'p', 'ot', 'ent', 'p', 'ot'], ['enter', 'a', 'p', 'ot', 'ent', 'p', 'o', 't'], ['enter', 'a', 'p', 'o', 't', 'ent', 'p', 'ot'], ['enter', 'a', 'p', 'o', 't', 'ent', 'p', 'o', 't']]
 print(
     f"Count construct 'enterapotentpot' ['a','p','ent','enter','ot','o','t']: {all_construct_memoized('enterapotentpot',['a','p','ent','enter','ot','o','t'],{})}")
-# False
+# []
 print(
     f"Count construct 'eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef' ['e','ee','eee','eeee','eeeee','eeeeee']: {all_construct_memoized('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef',['e','ee','eee','eeee','eeeee','eeeeee'],{})}")
+# NOTA: Para este ejercicio, este ultimo ejemplo, ya no es el peor escenario. El pero escenario seria un string sin la f final para el cual tendria que
+# devolver una gran cantidad de combinaciones posibles.
+''' Analizando la complejidad del ejercicio:
+Siendo:     m = len(target)
+            n = len(word_bank)
+
+*La cantidad de hojas (ultimos nodos del arbol) me indicara cuantos posibles subarrays voy a tener en mi lista. En el peor de los casos sera n, que es la 
+cantidad maxima de ramas que pueden salir de un nodo (branching factor), a la m que es el alto maximo del arbol en el peor de los casos.
+Por esto tendremos n^m hojas => n^m combinaciones diferentes => n^m subarrays => la solucion es exponencial en tamaño => no se puede hacer mejor que exponencial en este caso
+
+Por esto, la complejidad de tiempo: O(n^m) time -> En este caso, la complejidad de tiempo, no se puede mejorar de exponencial ya que tengo que devolver y copiar todos 
+                                                    los subarrays para dar todas las respuestas posibles que son las hoyas finales.
+Por esto, la complejidad de espacio: O(m) Space -> En la complejidad de ezspacio siempre nos referimos al stack para las llamadas recursivas. Por esto no la ponemos
+                                                    exponencial. En general siempre es el alto del arbol en el peor de los casos. Si consideramos los arrays que
+                                                    tenemos que crear, si seria exponencial.
+
+'''
